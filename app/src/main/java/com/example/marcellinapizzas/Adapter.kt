@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class Adapter(
-    private val listOfToppings: ArrayList<String>
+    private val listOfToppings: List<String>
 ) : RecyclerView.Adapter<Adapter.NewViewHolder>() {
 
     override fun onCreateViewHolder(

@@ -29,7 +29,7 @@ class ViewModelMain: ViewModel() {
             add(Pizza("Calzone Rustico", listOf("Ham", "Mushroom", "Capsicum", "Salami", "Olives")))
         }
     }
-    
+
     @JvmName("getListOfPizzas1")
     fun getListOfPizzas(): ArrayList<Pizza> {
         return listOfPizzas
