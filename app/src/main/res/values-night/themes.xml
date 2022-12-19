@@ -13,5 +13,6 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorOnPrimarySurface">@color/white</item>
+        <item name="colorPrimaryContainer">@color/dark_card_background</item>
     </style>
 </resources>

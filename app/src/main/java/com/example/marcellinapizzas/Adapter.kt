@@ -1,9 +1,13 @@
 package com.example.marcellinapizzas
 
+import android.content.Context
+import android.content.res.ColorStateList
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class Adapter(
@@ -25,11 +29,33 @@ class Adapter(
     class NewViewHolder(itemView: View, listener: onItemClickListener) :
         RecyclerView.ViewHolder(itemView) { // initialize views
         val tvTopping: TextView = itemView.findViewById(R.id.tvTopping)
+        val context = tvTopping.context
 
         init {
-            itemView.setOnClickListener() {
+            itemView.setOnClickListener {
                 listener.onItemClick(adapterPosition)
+
+                // color change based on selected/unselected
+                val colorSelected: ColorStateList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
+                val colorUnselected: ColorStateList = ColorStateList.valueOf(getColor(context, com.google.android.material.R.attr.colorPrimaryContainer))
+
+                if (itemView.backgroundTintList == colorSelected) { // item selected
+                    itemView.backgroundTintList = colorUnselected
+                    // TODO: tell MainActivity that this item's been unselected
+
+                } else { // item unselected
+                    itemView.backgroundTintList = colorSelected
+                    // TODO: tell MainActivity that this item's been selected
+                }
             }
+        }
+
+        private fun getColor(context: Context, colorResId: Int): Int {
+            val typedValue = TypedValue()
+            val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(colorResId))
+            val color = typedArray.getColor(0, 0)
+            typedArray.recycle()
+            return color
         }
     }
 
