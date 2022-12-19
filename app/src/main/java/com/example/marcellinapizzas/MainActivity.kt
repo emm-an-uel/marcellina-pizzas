@@ -3,17 +3,22 @@ package com.example.marcellinapizzas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var rv: RecyclerView
-    lateinit var adapter: Adapter
+    lateinit var rvAdapter: Adapter
     lateinit var btnCheck: Button
     lateinit var btnNext: Button
     lateinit var listOfToppings: List<String>
     lateinit var listOfPizzas: List<Pizza>
     lateinit var viewModel: ViewModelMain
+    lateinit var tvPizza: TextView
+    lateinit var correctToppings: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,15 +33,38 @@ class MainActivity : AppCompatActivity() {
 
         rv = findViewById(R.id.rvToppings)
         createRV()
+
+        // load first pizza
+        tvPizza = findViewById(R.id.tvPizza)
+        nextPizza()
+
+        // buttons
+        btnCheck = findViewById(R.id.btnCheck)
+        btnCheck.setOnClickListener {
+            // TODO: check answers
+        }
+        btnNext = findViewById(R.id.btnNext)
+        btnNext.setOnClickListener {
+            nextPizza()
+        }
+    }
+
+    private fun nextPizza() {
+        val randomGenerator = Random(System.currentTimeMillis())
+        val index = randomGenerator.nextInt(listOfPizzas.size)
+        tvPizza.text = listOfPizzas[index].name
+        correctToppings = listOfPizzas[index].toppings
     }
 
     private fun createRV() {
-        adapter = Adapter(listOfToppings)
-        adapter.setOnItemClickListener(object: Adapter.onItemClickListener {
+        val layoutManager = GridLayoutManager(this, 2)
+        rvAdapter = Adapter(listOfToppings)
+        rvAdapter.setOnItemClickListener(object: Adapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 // TODO: save as selected/unselected topping
             }
         })
-        rv.adapter = adapter
+        rv.adapter = rvAdapter
+        rv.layoutManager = layoutManager
     }
 }
