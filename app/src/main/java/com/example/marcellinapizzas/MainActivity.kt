@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var rvAdapter: Adapter
     lateinit var btnCheck: Button
     lateinit var listOfToppings: List<String>
+    lateinit var mapOfToppings: MutableMap<String, Boolean>
     lateinit var listOfPizzas: List<Pizza>
     lateinit var viewModel: ViewModelMain
     lateinit var tvPizza: TextView
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         listOfToppings = resources.getStringArray(R.array.listOfToppings).toMutableList()
         listOfPizzas = viewModel.getListOfPizzas()
+        mapOfToppings = mutableMapOf()
+        setupMapOfToppings()
 
         rv = findViewById(R.id.rvToppings)
         createRV()
@@ -41,10 +44,10 @@ class MainActivity : AppCompatActivity() {
         // buttons
         btnCheck = findViewById(R.id.btnCheck)
         btnCheck.text = "check answers"
-        
+
         btnCheck.setOnClickListener {
             if (!answersChecked) { // if answers have not been checked
-                // TODO: check answers
+                checkAnswers()
                 btnCheck.text = "next pizza"
                 answersChecked = true
 
@@ -53,6 +56,13 @@ class MainActivity : AppCompatActivity() {
                 btnCheck.text = "check answers"
                 answersChecked = false
             }
+        }
+    }
+
+    private fun setupMapOfToppings() {
+        for (topping in listOfToppings) {
+            mapOfToppings[topping] = false
+            // will be set to 'true' if user selects, 'false' if user deselects
         }
     }
 
@@ -68,10 +78,20 @@ class MainActivity : AppCompatActivity() {
         rvAdapter = Adapter(listOfToppings)
         rvAdapter.setOnItemClickListener(object: Adapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                // TODO: save as selected/unselected topping
+                val topping = listOfToppings[position]
+                mapOfToppings[topping] = mapOfToppings[topping] != true // if currently true, set to false; vice versa
             }
         })
         rv.adapter = rvAdapter
         rv.layoutManager = layoutManager
+    }
+
+    private fun checkAnswers() {
+        val userAnswers = arrayListOf<String>()
+        for (topping in mapOfToppings.keys) {
+            if (mapOfToppings[topping] == true) {
+                userAnswers.add(topping)
+            }
+        }
     }
 }

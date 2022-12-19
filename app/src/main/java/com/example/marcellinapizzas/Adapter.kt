@@ -41,11 +41,9 @@ class Adapter(
 
                 if (itemView.backgroundTintList == colorSelected) { // item selected
                     itemView.backgroundTintList = colorUnselected
-                    // TODO: tell MainActivity that this item's been unselected
 
                 } else { // item unselected
                     itemView.backgroundTintList = colorSelected
-                    // TODO: tell MainActivity that this item's been selected
                 }
             }
         }
