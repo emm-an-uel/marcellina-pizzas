@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Marcellina Pizzas</string>
+
+    <string-array name="listOfToppings">
+        <item>Ham</item>
+        <item>Anchovies</item>
+        <item>Salami</item>
+        <item>Chicken</item>
+        <item>Prawns</item>
+        <item>Oysters</item>
+        <item>Bacon</item>
+        <item>Salami</item>
+        <item>Capsicum</item>
+        <item>Mushroom</item>
+        <item>Olives</item>
+        <item>Tomato</item>
+        <item>Basil</item>
+        <item>Oregano</item>
+        <item>Pineapple</item>
+        <item>Onion</item>
+        <item>Chili</item>
+        <item>BBQ Sauce</item>
+        <item>Garlic</item>
+        <item>Parsley</item>
+        <item>Herbs</item>
+    </string-array>
 </resources>
