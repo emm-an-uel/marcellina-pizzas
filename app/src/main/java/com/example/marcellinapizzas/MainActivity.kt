@@ -13,12 +13,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var rv: RecyclerView
     lateinit var rvAdapter: Adapter
     lateinit var btnCheck: Button
-    lateinit var btnNext: Button
     lateinit var listOfToppings: List<String>
     lateinit var listOfPizzas: List<Pizza>
     lateinit var viewModel: ViewModelMain
     lateinit var tvPizza: TextView
     lateinit var correctToppings: List<String>
+    var answersChecked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +40,19 @@ class MainActivity : AppCompatActivity() {
 
         // buttons
         btnCheck = findViewById(R.id.btnCheck)
+        btnCheck.text = "check answers"
+        
         btnCheck.setOnClickListener {
-            // TODO: check answers
-        }
-        btnNext = findViewById(R.id.btnNext)
-        btnNext.setOnClickListener {
-            nextPizza()
+            if (!answersChecked) { // if answers have not been checked
+                // TODO: check answers
+                btnCheck.text = "next pizza"
+                answersChecked = true
+
+            } else { // if answers have been checked
+                nextPizza()
+                btnCheck.text = "check answers"
+                answersChecked = false
+            }
         }
     }
 

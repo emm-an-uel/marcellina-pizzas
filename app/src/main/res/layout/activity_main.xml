@@ -33,20 +33,10 @@
 
         <Button
             android:id="@+id/btnCheck"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="check"
-            android:textColor="?attr/colorOnPrimarySurface" />
-
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="next"
+            android:text="button"
             android:textColor="?attr/colorOnPrimarySurface" />
 
     </LinearLayout>
