@@ -71,12 +71,16 @@ class Adapter(
         holder.itemView.backgroundTintList = ColorStateList.valueOf(listOfColors[colorIndex])
 
         // set text color according to bg - for readability
-        if (colorIndex == 1) { // yellow bg - black text
-            holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.black))
-        } else if (colorIndex == 2) { // red bg - white text 
-            holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.white))
-        } else { // reset to default text color
-            holder.tvTopping.setTextColor(getColor(holder.context, com.google.android.material.R.attr.colorOnPrimarySurface))
+        when (colorIndex) {
+            1 -> { // yellow bg - black text
+                holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.black))
+            }
+            2 -> { // red bg - white text
+                holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.white))
+            }
+            else -> { // reset to default text color
+                holder.tvTopping.setTextColor(getColor(holder.context, com.google.android.material.R.attr.colorOnPrimarySurface))
+            }
         }
     }
 
