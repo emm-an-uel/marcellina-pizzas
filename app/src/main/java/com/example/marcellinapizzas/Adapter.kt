@@ -70,10 +70,22 @@ class Adapter(
         val colorIndex = mapOfToppings[topping]!!
         holder.itemView.backgroundTintList = ColorStateList.valueOf(listOfColors[colorIndex])
 
-        // set text color to black if bg is yellow - for readability
-        if (colorIndex == 1) {
+        // set text color according to bg - for readability
+        if (colorIndex == 1) { // yellow bg - black text
             holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.black))
+        } else if (colorIndex == 2) { // red bg - white text 
+            holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.white))
+        } else { // reset to default text color
+            holder.tvTopping.setTextColor(getColor(holder.context, com.google.android.material.R.attr.colorOnPrimarySurface))
         }
+    }
+
+    private fun getColor(context: Context, colorResId: Int): Int {
+        val typedValue = TypedValue()
+        val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(colorResId))
+        val color = typedArray.getColor(0, 0)
+        typedArray.recycle()
+        return color
     }
 
     override fun getItemCount(): Int { // this function is required
