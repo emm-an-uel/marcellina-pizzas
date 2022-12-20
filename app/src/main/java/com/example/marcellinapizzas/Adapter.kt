@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class Adapter(
-    private val listOfToppings: List<String>
+    private val mapOfToppings: Map<String, Int>,
+    private val listOfToppings: List<String>,
+    private val listOfColors: List<Int>
 ) : RecyclerView.Adapter<Adapter.NewViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -61,7 +63,12 @@ class Adapter(
         holder: NewViewHolder,
         position: Int
     ) { // populate views with data from list
-        holder.tvTopping.text = listOfToppings[position]
+        val topping = listOfToppings[position]
+        holder.tvTopping.text = topping
+
+        // color
+        val colorIndex = mapOfToppings[topping]!!
+        holder.itemView.backgroundTintList = ColorStateList.valueOf(listOfColors[colorIndex])
     }
 
     override fun getItemCount(): Int { // this function is required
