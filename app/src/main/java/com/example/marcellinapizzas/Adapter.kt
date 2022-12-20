@@ -69,6 +69,11 @@ class Adapter(
         // color
         val colorIndex = mapOfToppings[topping]!!
         holder.itemView.backgroundTintList = ColorStateList.valueOf(listOfColors[colorIndex])
+
+        // set text color to black if bg is yellow - for readability
+        if (colorIndex == 1) {
+            holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.black))
+        }
     }
 
     override fun getItemCount(): Int { // this function is required

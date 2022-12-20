@@ -80,9 +80,9 @@ class MainActivity : AppCompatActivity() {
     private fun createListOfColors() {
         listOfColors.apply {
             add(getColor(this@MainActivity, com.google.android.material.R.attr.colorPrimaryContainer)) // default rv item bg color
-            add(ContextCompat.getColor(this@MainActivity, R.color.yellow))
-            add(ContextCompat.getColor(this@MainActivity, R.color.red))
-            add(ContextCompat.getColor(this@MainActivity, R.color.green))
+            add(ContextCompat.getColor(this@MainActivity, R.color.yellow)) // present, user not selected
+            add(ContextCompat.getColor(this@MainActivity, R.color.red)) // not present, user selected
+            add(ContextCompat.getColor(this@MainActivity, R.color.green)) // present, user selected
         }
     }
 
