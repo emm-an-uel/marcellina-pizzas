@@ -2,6 +2,7 @@ package com.example.marcellinapizzas
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // TODO: change action bar text color for light theme
 
         // instantiate viewModel and create list of pizzas
         viewModel = ViewModelProvider(this)[ViewModelMain::class.java]
