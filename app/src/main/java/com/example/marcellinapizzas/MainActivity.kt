@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // instantiate viewModel and create list of pizzas
+        viewModel = ViewModelProvider(this)[ViewModelMain::class.java]
+        viewModel.createListOfPizzas()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -39,10 +43,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        // instantiate viewModel and create list of pizzas
-        viewModel = ViewModelProvider(this)[ViewModelMain::class.java]
-        viewModel.createListOfPizzas()
     }
 
     override fun onSupportNavigateUp(): Boolean {
