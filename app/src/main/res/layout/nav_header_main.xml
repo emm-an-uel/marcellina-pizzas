@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/m_red"
+    android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -10,7 +11,9 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/status_bar_height"
         android:contentDescription="Navigation Header"
+        android:paddingTop="10dp"
         android:src="@mipmap/app_icon_round" />
 
 </LinearLayout>
