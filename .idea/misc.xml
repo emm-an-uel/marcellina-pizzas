@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/app_bar_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/activity_main.xml" value="0.20521590423257802" />
+        <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
         <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/content_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/fragment_quiz.xml" value="0.1936725096194955" />
         <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/fragment_solutions.xml" value="0.1" />
+        <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/nav_header_main.xml" value="0.20436083796494228" />
         <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/layout/rv_item.xml" value="0.20521590423257802" />
+        <entry key="..\:/Personal Folder/Coding Projects/Android Studio Projects/Marcellina Pizzas/app/src/main/res/menu/menu.xml" value="0.20521590423257802" />
       </map>
     </option>
   </component>
