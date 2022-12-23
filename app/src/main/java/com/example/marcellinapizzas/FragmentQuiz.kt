@@ -26,6 +26,9 @@ class FragmentQuiz : Fragment() {
     lateinit var listOfColors: ArrayList<Int>
     lateinit var viewModel: ViewModelMain
     lateinit var tvPizza: TextView
+    lateinit var tvScore: TextView
+    var score = 0
+    var numQuestions = 0
     lateinit var correctToppings: List<String>
     var answersChecked = false
 
@@ -57,6 +60,9 @@ class FragmentQuiz : Fragment() {
         rv = view.findViewById(R.id.rvToppings)
         createRV()
 
+        tvScore = view.findViewById(R.id.tvScore)
+        tvScore.text = "Score: 0/0"
+
         // load first pizza
         tvPizza = view.findViewById(R.id.tvPizza)
         nextPizza()
@@ -68,6 +74,7 @@ class FragmentQuiz : Fragment() {
         btnCheck.setOnClickListener {
             if (!answersChecked) { // if answers have not been checked
                 checkAnswers()
+                updateScore()
                 btnCheck.text = "next pizza"
                 answersChecked = true
 
@@ -77,6 +84,10 @@ class FragmentQuiz : Fragment() {
                 answersChecked = false
             }
         }
+    }
+
+    private fun updateScore() {
+        tvScore.text = "Score: $score/$numQuestions"
     }
 
     private fun setupRVMapOfToppings() {
@@ -110,6 +121,7 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun nextPizza() {
+        numQuestions++
         val randomGenerator = Random(System.currentTimeMillis())
         val index = randomGenerator.nextInt(listOfPizzas.size)
         tvPizza.text = listOfPizzas[index].name
@@ -140,21 +152,32 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun checkAnswers() {
+        var correct = true
         // check against correctToppings: List
         for (topping in userMapOfToppings.keys) {
             if (userMapOfToppings[topping] == true) { // user selected
                 if (correctToppings.contains(topping)) { // present, user selected (green)
                     rvMapOfToppings[topping] = 3
+
                 } else { // not present, user selected (red)
                     rvMapOfToppings[topping] = 2
+                    if (correct) { // makes a note that user got this pizza wrong
+                        correct = false
+                    }
                 }
             } else { // user not selected
                 if (correctToppings.contains(topping)) { // present, user not selected (yellow)
                     rvMapOfToppings[topping] = 1
+                    if (correct) { // makes a note that user got this pizza wrong
+                        correct = false
+                    }
                 }
             }
         }
-
         rvAdapter.notifyDataSetChanged()
+
+        if (correct) {
+            score++ // adds 1 to score if user got pizza correct
+        }
     }
 }
