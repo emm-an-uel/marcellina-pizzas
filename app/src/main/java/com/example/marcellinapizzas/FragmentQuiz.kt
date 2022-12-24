@@ -114,7 +114,6 @@ class FragmentQuiz : Fragment() {
                     builder.create()
                 }
                 alertDialog.show()
-                // TODO: change dialog button colors if needed
             }
         }
     }

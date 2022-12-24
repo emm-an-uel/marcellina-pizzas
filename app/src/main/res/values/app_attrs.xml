@@ -3,4 +3,6 @@
     <attr name="drawerItemColorChecked" format="color" />
     <attr name="drawerItemColorNormal" format="color" />
     <attr name="drawerItemBackground" format="color" />
+
+    <attr name="drawerBackground" format="color" />
 </resources>
