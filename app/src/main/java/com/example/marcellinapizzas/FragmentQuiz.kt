@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class FragmentQuiz : Fragment() {
     lateinit var rv: RecyclerView
@@ -28,6 +30,7 @@ class FragmentQuiz : Fragment() {
     lateinit var tvPizza: TextView
     lateinit var tvScore: TextView
     var score = 0
+    var correct = true
     var numQuestions = 0
     lateinit var correctToppings: List<String>
     var answersChecked = false
@@ -95,19 +98,49 @@ class FragmentQuiz : Fragment() {
 
             } else { // if user has not answered all questions
                 // give the option to retry everything or just retry that pizza
-                
+                val alertDialog: AlertDialog = requireContext().let {
+                    val builder = AlertDialog.Builder(it)
+                    builder.apply {
+                        setPositiveButton("Restart Quiz"
+                        ) { _, _ ->
+                            restartQuiz()
+                        }
+                        setNegativeButton("Retry Pizza"
+                        ) { _, _ ->
+                            retryPizza()
+                        }
+                    }
+                    builder.setMessage("Which would you like to do?")
+                    builder.create()
+                }
+                alertDialog.show()
+                // TODO: change dialog button colors if needed
             }
         }
     }
 
+    private fun retryPizza() {
+        if (answersChecked && correct) {
+            score-- // remove the point that the user got from the pizza that they're retrying
+        }
+        numQuestions--
+        tvScore.text = "Score: $score/$numQuestions"
+        btnCheck.text = "Check Answers"
+        answersChecked = false
+        nextPizza()
+    }
+
     private fun restartQuiz() {
         score = 0
+        correct = true
         numQuestions = 0
         listOfPizzas = viewModel.getListOfPizzas()
         tvScore.text = "Score: 0/0"
         btnRetry.text = "retry"
         btnCheck.visibility = View.VISIBLE
         nextPizza()
+
+        Snackbar.make(rv, "Quiz restarted", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun updateScore() {
@@ -188,7 +221,7 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun checkAnswers() {
-        var correct = true
+        correct = true
         // check against correctToppings: List
         for (topping in userMapOfToppings.keys) {
             if (userMapOfToppings[topping] == true) { // user selected
