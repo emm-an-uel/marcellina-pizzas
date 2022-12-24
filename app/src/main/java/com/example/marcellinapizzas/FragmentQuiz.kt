@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 class FragmentQuiz : Fragment() {
     lateinit var rv: RecyclerView
     lateinit var rvAdapter: Adapter
     lateinit var btnCheck: Button
+    lateinit var btnRetry: Button
     lateinit var listOfToppings: List<String>
     lateinit var rvMapOfToppings: MutableMap<String, Int>
     lateinit var userMapOfToppings: MutableMap<String, Boolean>
@@ -42,6 +42,10 @@ class FragmentQuiz : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        score = 0
+        numQuestions = 0
+
         // create listOfColors for rv items
         listOfColors = arrayListOf()
         createListOfColors()
@@ -70,7 +74,6 @@ class FragmentQuiz : Fragment() {
         // buttons
         btnCheck = view.findViewById(R.id.btnCheck)
         btnCheck.text = "check answers"
-
         btnCheck.setOnClickListener {
             if (!answersChecked) { // if answers have not been checked
                 checkAnswers()
@@ -84,6 +87,27 @@ class FragmentQuiz : Fragment() {
                 answersChecked = false
             }
         }
+
+        btnRetry = view.findViewById(R.id.btnRetry)
+        btnRetry.setOnClickListener {
+            if (btnCheck.visibility == View.GONE) { // if user has answered all questions
+                restartQuiz()
+
+            } else { // if user has not answered all questions
+                // give the option to retry everything or just retry that pizza
+                
+            }
+        }
+    }
+
+    private fun restartQuiz() {
+        score = 0
+        numQuestions = 0
+        listOfPizzas = viewModel.getListOfPizzas()
+        tvScore.text = "Score: 0/0"
+        btnRetry.text = "retry"
+        btnCheck.visibility = View.VISIBLE
+        nextPizza()
     }
 
     private fun updateScore() {
@@ -98,8 +122,18 @@ class FragmentQuiz : Fragment() {
 
     private fun createListOfColors() {
         listOfColors.apply {
-            add(getColor(requireContext(), com.google.android.material.R.attr.colorPrimaryContainer)) // default rv item bg color
-            add(ContextCompat.getColor(requireContext(), R.color.yellow)) // present, user not selected
+            add(
+                getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorPrimaryContainer
+                )
+            ) // default rv item bg color
+            add(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.yellow
+                )
+            ) // present, user not selected
             add(ContextCompat.getColor(requireContext(), R.color.red)) // not present, user selected
             add(ContextCompat.getColor(requireContext(), R.color.green)) // present, user selected
         }
@@ -121,30 +155,32 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun nextPizza() {
-        numQuestions++
-        val randomGenerator = Random(System.currentTimeMillis())
-        val index = randomGenerator.nextInt(listOfPizzas.size)
-        tvPizza.text = listOfPizzas[index].name
-        correctToppings = listOfPizzas[index].toppings
+        if (numQuestions < listOfPizzas.size) { // only when user hasn't gone through all pizzas
+            val pizza = listOfPizzas[numQuestions]
+            tvPizza.text = pizza.name
+            correctToppings = pizza.toppings
 
-        for (topping in rvMapOfToppings.keys) {
-            rvMapOfToppings[topping] = 0 // reset to default bg color
+            // reset bg color and 'unselected'
+            for (topping in rvMapOfToppings.keys) {
+                rvMapOfToppings[topping] = 0 // resets to default bg color
+            }
+            for (topping in userMapOfToppings.keys) {
+                userMapOfToppings[topping] = false // resets to 'unselected'
+            }
+
+            numQuestions++
+            rvAdapter.notifyDataSetChanged()
         }
-
-        for (topping in userMapOfToppings.keys) {
-            userMapOfToppings[topping] = false // reset to unselected
-        }
-
-        rvAdapter.notifyDataSetChanged()
     }
 
     private fun createRV() {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         rvAdapter = Adapter(rvMapOfToppings, listOfToppings, listOfColors)
-        rvAdapter.setOnItemClickListener(object: Adapter.onItemClickListener {
+        rvAdapter.setOnItemClickListener(object : Adapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 val topping = listOfToppings[position]
-                userMapOfToppings[topping] = userMapOfToppings[topping] != true // if currently true, set to false; vice versa
+                userMapOfToppings[topping] =
+                    userMapOfToppings[topping] != true // if currently true, set to false; vice versa
             }
         })
         rv.adapter = rvAdapter
@@ -178,6 +214,11 @@ class FragmentQuiz : Fragment() {
 
         if (correct) {
             score++ // adds 1 to score if user got pizza correct
+        }
+
+        if (numQuestions == listOfPizzas.size) { // if user has gone through all pizzas
+            btnCheck.visibility = View.GONE
+            btnRetry.text = "restart"
         }
     }
 }

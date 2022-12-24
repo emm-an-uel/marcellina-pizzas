@@ -32,6 +32,7 @@ class ViewModelMain: ViewModel() {
 
     @JvmName("getListOfPizzas1")
     fun getListOfPizzas(): ArrayList<Pizza> {
+        listOfPizzas.shuffle()
         return listOfPizzas
     }
 }

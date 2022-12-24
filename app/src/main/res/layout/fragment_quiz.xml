@@ -48,11 +48,21 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
+            android:id="@+id/btnRetry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:text="retry" />
+
+        <Button
             android:id="@+id/btnCheck"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:text="button"
+            android:text="check answers"
             android:textColor="?attr/colorOnPrimarySurface" />
 
     </LinearLayout>
