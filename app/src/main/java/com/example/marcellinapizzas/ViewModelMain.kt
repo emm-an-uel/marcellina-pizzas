@@ -1,9 +1,33 @@
 package com.example.marcellinapizzas
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 
-class ViewModelMain: ViewModel() {
+class ViewModelMain(val app: Application): AndroidViewModel(app) {
     lateinit var listOfPizzas: ArrayList<Pizza>
+    lateinit var mapOfToppings: MutableMap<String, String>
+
+    fun createMapOfToppings() {
+        val listOfToppings: List<String> = app.resources.getStringArray(R.array.listOfToppings).toList()
+
+        mapOfToppings = mutableMapOf()
+        // classify each topping
+        for (n in listOfToppings.indices) {
+            val topping = listOfToppings[n]
+            if (n < 7) { // note: list has been separated into the following sections in strings.xml
+                mapOfToppings[topping] = "Meats"
+            } else if (n < 13) {
+                mapOfToppings[topping] = "Veg"
+            } else {
+                mapOfToppings[topping] = "Others"
+            }
+        }
+    }
+
+    @JvmName("getMapOfToppings1")
+    fun getMapOfToppings(): MutableMap<String, String> {
+        return mapOfToppings
+    }
 
     fun createListOfPizzas() {
         listOfPizzas = arrayListOf()

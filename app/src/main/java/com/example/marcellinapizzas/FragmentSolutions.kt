@@ -19,6 +19,7 @@ class FragmentSolutions : Fragment() {
     lateinit var rvAdapter: RVAdapterSolutions
     lateinit var rv: RecyclerView
     lateinit var listOfPizzas: List<Pizza>
+    lateinit var mapOfToppings: Map<String, String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +36,16 @@ class FragmentSolutions : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[ViewModelMain::class.java]
         listOfPizzas = viewModel.getListOfPizzas(false)
 
+        // get mapOfToppings
+        mapOfToppings = viewModel.getMapOfToppings()
+
         // setup rv
         rv = binding.rvPizzas
         setupRV()
     }
 
     private fun setupRV() {
-        rvAdapter = RVAdapterSolutions(listOfPizzas)
+        rvAdapter = RVAdapterSolutions(listOfPizzas, mapOfToppings)
         rvAdapter.setOnItemClickListener(object : RVAdapterSolutions.onItemClickListener {
             override fun onItemClick(position: Int) {
                 // TODO: this

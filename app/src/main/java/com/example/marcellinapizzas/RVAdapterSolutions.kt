@@ -12,8 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class RVAdapterSolutions(
-    private val listOfPizzas: List<Pizza>
+    private val listOfPizzas: List<Pizza>,
+    private val mapOfToppings: Map<String, String> // <Topping, Category>
 ) : RecyclerView.Adapter<RVAdapterSolutions.NewViewHolder>() {
+
+    // TODO: prevent view recycling - set individual view type??
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,8 +44,14 @@ class RVAdapterSolutions(
                 listener.onItemClick(adapterPosition)
 
                 // color change based on selected/unselected
-                val colorSelected: ColorStateList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
-                val colorUnselected: ColorStateList = ColorStateList.valueOf(getColor(context, com.google.android.material.R.attr.colorPrimaryContainer))
+                val colorSelected: ColorStateList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
+                val colorUnselected: ColorStateList = ColorStateList.valueOf(
+                    getColor(
+                        context,
+                        com.google.android.material.R.attr.colorPrimaryContainer
+                    )
+                )
 
                 if (itemView.backgroundTintList == colorSelected) { // item selected
                     itemView.backgroundTintList = colorUnselected
@@ -67,23 +76,44 @@ class RVAdapterSolutions(
     override fun onBindViewHolder(
         holder: NewViewHolder,
         position: Int
-    ) { // populate views with data from list
+    ) {
+        holder.setIsRecyclable(false)
+
         val pizza = listOfPizzas[position]
         holder.tvPizza.text = pizza.name
-    }
+        val context = holder.context
 
-    // TODO: remove this method if unnecessary
-    private fun getColor(context: Context, colorResId: Int): Int {
-        val typedValue = TypedValue()
-        val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(colorResId))
-        val color = typedArray.getColor(0, 0)
-        typedArray.recycle()
-        return color
+        // populate linear layouts - classify topping by category
+        val toppings = pizza.toppings
+        for (topping in toppings) {
+            val textView = TextView(context)
+            textView.text = topping
+
+            if (mapOfToppings[topping] == "Meats") {
+                holder.layoutMeats.addView(textView)
+
+            } else if (mapOfToppings[topping] == "Veg") {
+                holder.layoutVeg.addView(textView)
+
+            } else {
+                holder.layoutOthers.addView(textView)
+            }
+        }
     }
 
     override fun getItemCount(): Int { // this function is required
         return listOfPizzas.size
     }
+
+    // prevent view recycling so toppings lists don't get messed up
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
 
     // click listener
 
