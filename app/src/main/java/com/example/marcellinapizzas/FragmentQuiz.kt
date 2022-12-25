@@ -101,11 +101,13 @@ class FragmentQuiz : Fragment() {
                 val alertDialog: AlertDialog = requireContext().let {
                     val builder = AlertDialog.Builder(it)
                     builder.apply {
-                        setPositiveButton("Restart Quiz"
+                        setPositiveButton(
+                            "Restart Quiz"
                         ) { _, _ ->
                             restartQuiz()
                         }
-                        setNegativeButton("Retry Pizza"
+                        setNegativeButton(
+                            "Retry Pizza"
                         ) { _, _ ->
                             retryPizza()
                         }
@@ -154,20 +156,11 @@ class FragmentQuiz : Fragment() {
 
     private fun createListOfColors() {
         listOfColors.apply {
-            add(
-                getColor(
-                    requireContext(),
-                    com.google.android.material.R.attr.colorPrimaryContainer
-                )
-            ) // default rv item bg color
-            add(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.yellow
-                )
-            ) // present, user not selected
+            add(getColor(requireContext(),com.google.android.material.R.attr.colorPrimaryContainer)) // default rv item bg color
+            add(ContextCompat.getColor(requireContext(),R.color.yellow)) // present, user not selected
             add(ContextCompat.getColor(requireContext(), R.color.red)) // not present, user selected
             add(ContextCompat.getColor(requireContext(), R.color.green)) // present, user selected
+            add(ContextCompat.getColor(requireContext(), R.color.light_blue)) // answers unchecked, user selected
         }
     }
 
@@ -211,8 +204,15 @@ class FragmentQuiz : Fragment() {
         rvAdapter.setOnItemClickListener(object : RVAdapterQuiz.onItemClickListener {
             override fun onItemClick(position: Int) {
                 val topping = listOfToppings[position]
-                userMapOfToppings[topping] =
-                    userMapOfToppings[topping] != true // if currently true, set to false; vice versa
+                if (userMapOfToppings[topping] == true) { // if currently selected
+                    userMapOfToppings[topping] = false // set to unselected
+                    rvMapOfToppings[topping] = 0
+
+                } else { // if currently not selected
+                    userMapOfToppings[topping] = true // set to selected
+                    rvMapOfToppings[topping] = 4
+                }
+                rvAdapter.notifyDataSetChanged()
             }
         })
         rv.adapter = rvAdapter
