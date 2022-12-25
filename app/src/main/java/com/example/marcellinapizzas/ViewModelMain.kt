@@ -2,7 +2,6 @@ package com.example.marcellinapizzas
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.beust.klaxon.JsonReader
 import com.beust.klaxon.Klaxon
