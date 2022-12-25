@@ -2,6 +2,7 @@ package com.example.marcellinapizzas
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.beust.klaxon.JsonReader
 import com.beust.klaxon.Klaxon
@@ -23,11 +24,7 @@ class ViewModelMain(val app: Application): AndroidViewModel(app) {
                 reader.beginArray {
                     while (reader.hasNext()) {
                         val d = Klaxon().parse<Data>(reader)!!
-
-                        // add to map
-                        val name: String = d.name
-                        val value: Int = d.value
-                        mapOfData[name] = value
+                        mapOfData[d.name] = d.value
                     }
                 }
             }
@@ -48,7 +45,13 @@ class ViewModelMain(val app: Application): AndroidViewModel(app) {
         mapOfData["highScore"] = highScore
 
         // save locally
-        val updatedData = Klaxon().toJsonString(mapOfData)
+        val list = arrayListOf<Data>()
+        for ((k, v) in mapOfData) {
+            val data = Data(k, v)
+            list.add(data)
+        }
+
+        val updatedData = Klaxon().toJsonString(list)
         app.openFileOutput("fileData", Context.MODE_PRIVATE).use {
             it.write(updatedData.toByteArray())
         }

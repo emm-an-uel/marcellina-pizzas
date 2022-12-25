@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
+    // parcelize
+    id 'org.jetbrains.kotlin.android.extensions'
 }
 
 android {
