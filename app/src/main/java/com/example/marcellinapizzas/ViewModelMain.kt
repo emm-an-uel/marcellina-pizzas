@@ -1,11 +1,46 @@
 package com.example.marcellinapizzas
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import com.beust.klaxon.JsonReader
+import com.beust.klaxon.Klaxon
+import java.io.File
+import java.io.StringReader
 
 class ViewModelMain(val app: Application): AndroidViewModel(app) {
     lateinit var listOfPizzas: ArrayList<Pizza>
     lateinit var mapOfToppings: MutableMap<String, String>
+    private var highScore = 0
+
+    fun loadHighScore() {
+        val file = File(app.filesDir, "fileHighScore")
+        if (file.exists()) {
+            val fileJson: String = file.readText()
+            JsonReader(StringReader(fileJson)).use { reader ->
+                reader.beginArray {
+                    while (reader.hasNext()) {
+                        highScore = Klaxon().parse<Int>(reader)!!
+                    }
+                }
+            }
+        }
+    }
+
+    @JvmName("getHighScore1")
+    fun getHighScore(): Int {
+        return highScore
+    }
+
+    fun updateHighScore(newScore: Int) {
+        highScore = newScore
+
+        // save locally
+        val updatedScore = Klaxon().toJsonString(highScore)
+        app.openFileOutput("fileHighScore", Context.MODE_PRIVATE).use {
+            it.write(updatedScore.toByteArray())
+        }
+    }
 
     fun createMapOfToppings() {
         val listOfToppings: List<String> = app.resources.getStringArray(R.array.listOfToppings).toList()

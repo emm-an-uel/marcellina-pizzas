@@ -30,6 +30,7 @@ class FragmentQuiz : Fragment() {
     lateinit var tvPizza: TextView
     lateinit var tvScore: TextView
     var score = 0
+    var highScore = 0
     var correct = true
     var numQuestions = 0
     lateinit var correctToppings: List<String>
@@ -46,16 +47,17 @@ class FragmentQuiz : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // define viewModel and get list of pizzas
+        viewModel = ViewModelProvider(requireActivity())[ViewModelMain::class.java]
+        listOfPizzas = viewModel.getListOfPizzas(true)
+
         score = 0
         numQuestions = 0
+        highScore = viewModel.getHighScore()
 
         // create listOfColors for rv items
         listOfColors = arrayListOf()
         createListOfColors()
-
-        // define viewModel and get list of pizzas
-        viewModel = ViewModelProvider(requireActivity())[ViewModelMain::class.java]
-        listOfPizzas = viewModel.getListOfPizzas(true)
 
         // create lists and maps of toppings
         listOfToppings = resources.getStringArray(R.array.listOfToppings).toMutableList()
@@ -132,13 +134,25 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun restartQuiz() {
+        // reset quiz data
+        highScore = viewModel.getHighScore()
         score = 0
         correct = true
+        answersChecked = false
         numQuestions = 0
+
+        // re-shuffle listOfPizzas
         listOfPizzas = viewModel.getListOfPizzas(true)
+
+        // reset tvScore and buttons
         tvScore.text = "Score: 0/0"
         btnRetry.text = "retry"
-        btnCheck.visibility = View.VISIBLE
+        btnCheck.apply {
+            visibility = View.VISIBLE
+            text = "Check Answers"
+        }
+
+        // start quiz
         nextPizza()
 
         Snackbar.make(rv, "Quiz restarted", Snackbar.LENGTH_SHORT).show()
@@ -251,6 +265,14 @@ class FragmentQuiz : Fragment() {
         if (numQuestions == listOfPizzas.size) { // if user has gone through all pizzas
             btnCheck.visibility = View.GONE
             btnRetry.text = "restart"
+            checkHighScore()
+        }
+    }
+
+    private fun checkHighScore() {
+        if (score > highScore) {
+            viewModel.updateHighScore(score)
+            Snackbar.make(tvScore, "You beat your previous high score of $highScore", Snackbar.LENGTH_SHORT).show()
         }
     }
 }

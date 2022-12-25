@@ -23,10 +23,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // instantiate viewModel and create listOfPizzas, mapOfToppings
+        // instantiate viewModel and create listOfPizzas, mapOfToppings, highScore
         viewModel = ViewModelProvider(this)[ViewModelMain::class.java]
         viewModel.createListOfPizzas()
         viewModel.createMapOfToppings()
+        viewModel.loadHighScore()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
