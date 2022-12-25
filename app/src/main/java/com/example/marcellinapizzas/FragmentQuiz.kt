@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class FragmentQuiz : Fragment() {
     lateinit var rv: RecyclerView
-    lateinit var rvAdapter: Adapter
+    lateinit var rvAdapter: RVAdapterQuiz
     lateinit var btnCheck: Button
     lateinit var btnRetry: Button
     lateinit var listOfToppings: List<String>
@@ -55,7 +55,7 @@ class FragmentQuiz : Fragment() {
 
         // define viewModel and get list of pizzas
         viewModel = ViewModelProvider(requireActivity())[ViewModelMain::class.java]
-        listOfPizzas = viewModel.getListOfPizzas()
+        listOfPizzas = viewModel.getListOfPizzas(true)
 
         // create lists and maps of toppings
         listOfToppings = resources.getStringArray(R.array.listOfToppings).toMutableList()
@@ -133,7 +133,7 @@ class FragmentQuiz : Fragment() {
         score = 0
         correct = true
         numQuestions = 0
-        listOfPizzas = viewModel.getListOfPizzas()
+        listOfPizzas = viewModel.getListOfPizzas(true)
         tvScore.text = "Score: 0/0"
         btnRetry.text = "retry"
         btnCheck.visibility = View.VISIBLE
@@ -207,8 +207,8 @@ class FragmentQuiz : Fragment() {
 
     private fun createRV() {
         val layoutManager = GridLayoutManager(requireContext(), 2)
-        rvAdapter = Adapter(rvMapOfToppings, listOfToppings, listOfColors)
-        rvAdapter.setOnItemClickListener(object : Adapter.onItemClickListener {
+        rvAdapter = RVAdapterQuiz(rvMapOfToppings, listOfToppings, listOfColors)
+        rvAdapter.setOnItemClickListener(object : RVAdapterQuiz.onItemClickListener {
             override fun onItemClick(position: Int) {
                 val topping = listOfToppings[position]
                 userMapOfToppings[topping] =

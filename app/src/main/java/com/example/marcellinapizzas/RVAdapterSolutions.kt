@@ -6,22 +6,21 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(
-    private val mapOfToppings: Map<String, Int>,
-    private val listOfToppings: List<String>,
-    private val listOfColors: List<Int>
-) : RecyclerView.Adapter<Adapter.NewViewHolder>() {
+class RVAdapterSolutions(
+    private val listOfPizzas: List<Pizza>
+) : RecyclerView.Adapter<RVAdapterSolutions.NewViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): NewViewHolder { // inflate the layout for task_rv_item.xml
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.rv_item,
+            R.layout.rv_item_solutions,
             parent, false
         )
 
@@ -30,8 +29,12 @@ class Adapter(
 
     class NewViewHolder(itemView: View, listener: onItemClickListener) :
         RecyclerView.ViewHolder(itemView) { // initialize views
-        val tvTopping: TextView = itemView.findViewById(R.id.tvTopping)
-        val context = tvTopping.context
+        val tvPizza: TextView = itemView.findViewById(R.id.tvPizza)
+        val layoutMain: LinearLayout = itemView.findViewById(R.id.layoutMain)
+        val layoutMeats: LinearLayout = itemView.findViewById(R.id.layoutMeats)
+        val layoutVeg: LinearLayout = itemView.findViewById(R.id.layoutVeg)
+        val layoutOthers: LinearLayout = itemView.findViewById(R.id.layoutOthers)
+        val context: Context = tvPizza.context
 
         init {
             itemView.setOnClickListener {
@@ -43,9 +46,11 @@ class Adapter(
 
                 if (itemView.backgroundTintList == colorSelected) { // item selected
                     itemView.backgroundTintList = colorUnselected
+                    layoutMain.visibility = View.GONE
 
                 } else { // item unselected
                     itemView.backgroundTintList = colorSelected
+                    layoutMain.visibility = View.VISIBLE
                 }
             }
         }
@@ -63,27 +68,11 @@ class Adapter(
         holder: NewViewHolder,
         position: Int
     ) { // populate views with data from list
-        val topping = listOfToppings[position]
-        holder.tvTopping.text = topping
-
-        // color
-        val colorIndex = mapOfToppings[topping]!!
-        holder.itemView.backgroundTintList = ColorStateList.valueOf(listOfColors[colorIndex])
-
-        // set text color according to bg - for readability
-        when (colorIndex) {
-            1 -> { // yellow bg - black text
-                holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.black))
-            }
-            2 -> { // red bg - white text
-                holder.tvTopping.setTextColor(ContextCompat.getColor(holder.context, R.color.white))
-            }
-            else -> { // reset to default text color
-                holder.tvTopping.setTextColor(getColor(holder.context, com.google.android.material.R.attr.colorOnPrimarySurface))
-            }
-        }
+        val pizza = listOfPizzas[position]
+        holder.tvPizza.text = pizza.name
     }
 
+    // TODO: remove this method if unnecessary
     private fun getColor(context: Context, colorResId: Int): Int {
         val typedValue = TypedValue()
         val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(colorResId))
@@ -93,7 +82,7 @@ class Adapter(
     }
 
     override fun getItemCount(): Int { // this function is required
-        return listOfToppings.size
+        return listOfPizzas.size
     }
 
     // click listener
