@@ -29,6 +29,7 @@ class FragmentQuiz : Fragment() {
     lateinit var viewModel: ViewModelMain
     lateinit var tvPizza: TextView
     lateinit var tvScore: TextView
+    lateinit var tvHighScore: TextView
     var score = 0
     var highScore = 0
     var correct = true
@@ -71,6 +72,9 @@ class FragmentQuiz : Fragment() {
 
         tvScore = view.findViewById(R.id.tvScore)
         tvScore.text = "Score: 0/0"
+
+        tvHighScore = view.findViewById(R.id.tvHighScore)
+        tvHighScore.text = "High Score: $highScore"
 
         // load first pizza
         tvPizza = view.findViewById(R.id.tvPizza)
@@ -272,6 +276,7 @@ class FragmentQuiz : Fragment() {
     private fun checkHighScore() {
         if (score > highScore) {
             viewModel.updateHighScore(score)
+            tvHighScore.text = "High Score: $score"
             Snackbar.make(tvScore, "You beat your previous high score of $highScore", Snackbar.LENGTH_SHORT).show()
         }
     }

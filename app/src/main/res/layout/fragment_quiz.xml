@@ -8,6 +8,7 @@
     tools:context=".FragmentQuiz">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -20,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Pizza" />
+            android:text="Pizza"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvScore"
@@ -29,18 +31,30 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="Score: 4/6" />
+            android:text="Score: 4/6"
+            android:textStyle="bold" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvHighScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:text="High Score: 12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvToppings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:paddingBottom="90dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tvHighScore" />
 
     <LinearLayout
         android:layout_width="match_parent"

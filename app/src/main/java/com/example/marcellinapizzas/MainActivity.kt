@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ViewModelMain::class.java]
         viewModel.createListOfPizzas()
         viewModel.createMapOfToppings()
-        viewModel.loadHighScore()
+        viewModel.loadData()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

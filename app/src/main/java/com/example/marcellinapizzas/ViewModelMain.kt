@@ -11,16 +11,23 @@ import java.io.StringReader
 class ViewModelMain(val app: Application): AndroidViewModel(app) {
     lateinit var listOfPizzas: ArrayList<Pizza>
     lateinit var mapOfToppings: MutableMap<String, String>
+    lateinit var mapOfData: MutableMap<String, Int>
     private var highScore = 0
 
-    fun loadHighScore() {
-        val file = File(app.filesDir, "fileHighScore")
+    fun loadData() {
+        mapOfData = mutableMapOf()
+        val file = File(app.filesDir, "fileData")
         if (file.exists()) {
             val fileJson: String = file.readText()
             JsonReader(StringReader(fileJson)).use { reader ->
                 reader.beginArray {
                     while (reader.hasNext()) {
-                        highScore = Klaxon().parse<Int>(reader)!!
+                        val d = Klaxon().parse<Data>(reader)!!
+
+                        // add to map
+                        val name: String = d.name
+                        val value: Int = d.value
+                        mapOfData[name] = value
                     }
                 }
             }
@@ -29,16 +36,21 @@ class ViewModelMain(val app: Application): AndroidViewModel(app) {
 
     @JvmName("getHighScore1")
     fun getHighScore(): Int {
+        if (mapOfData.containsKey("highScore")) {
+            highScore = mapOfData["highScore"]!!
+        } // note: highScore = 0 otherwise (initialized in line 15 above)
+
         return highScore
     }
 
     fun updateHighScore(newScore: Int) {
         highScore = newScore
+        mapOfData["highScore"] = highScore
 
         // save locally
-        val updatedScore = Klaxon().toJsonString(highScore)
-        app.openFileOutput("fileHighScore", Context.MODE_PRIVATE).use {
-            it.write(updatedScore.toByteArray())
+        val updatedData = Klaxon().toJsonString(mapOfData)
+        app.openFileOutput("fileData", Context.MODE_PRIVATE).use {
+            it.write(updatedData.toByteArray())
         }
     }
 
