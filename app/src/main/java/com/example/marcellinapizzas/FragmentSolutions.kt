@@ -1,8 +1,6 @@
 package com.example.marcellinapizzas
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -58,9 +56,6 @@ class FragmentSolutions : Fragment() {
                 val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
                 val searchView: SearchView = searchItem.actionView as SearchView
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    searchItem.iconTintList = ColorStateList.valueOf(getColor(requireContext(), R.attr.searchIconColor))
-                }
                 searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(p0: String?): Boolean {
                         return false
