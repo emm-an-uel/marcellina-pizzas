@@ -1,6 +1,10 @@
 package com.example.marcellinapizzas
 
+import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.*
 import android.widget.SearchView
 import androidx.core.view.MenuHost
@@ -53,6 +57,10 @@ class FragmentSolutions : Fragment() {
 
                 val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
                 val searchView: SearchView = searchItem.actionView as SearchView
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    searchItem.iconTintList = ColorStateList.valueOf(getColor(requireContext(), R.attr.searchIconColor))
+                }
                 searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(p0: String?): Boolean {
                         return false
@@ -85,7 +93,16 @@ class FragmentSolutions : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun setupRV() {
+    private fun getColor(context: Context, colorResId: Int): Int {
+        val typedValue = TypedValue()
+        val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(colorResId))
+        val color = typedArray.getColor(0, 0)
+        typedArray.recycle()
+        return color
+    }
+
+
+        private fun setupRV() {
         rvAdapter = RVAdapterSolutions(listOfPizzas, mapOfToppings)
         rvAdapter.setOnItemClickListener(object : RVAdapterSolutions.onItemClickListener {
             override fun onItemClick(position: Int) {

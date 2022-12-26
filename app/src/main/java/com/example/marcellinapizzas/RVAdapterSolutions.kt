@@ -2,6 +2,7 @@ package com.example.marcellinapizzas
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -96,6 +97,22 @@ class RVAdapterSolutions(
                 holder.layoutOthers.addView(textView)
             }
         }
+
+        // bottom margins only for last item
+        if (position == listOfPizzas.size-1) {
+            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            layoutParams.setMargins(dpToPx(context, 5F), dpToPx(context, 10F), dpToPx(context, 5F), dpToPx(context, 10F))
+            holder.itemView.layoutParams = layoutParams
+        }
+    }
+
+    private fun dpToPx(context: Context, dp: Float): Int {
+        val r: Resources = context.resources
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            r.displayMetrics
+        ).toInt()
     }
 
     override fun getItemCount(): Int { // this function is required
