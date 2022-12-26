@@ -42,21 +42,17 @@ class RVAdapterSolutions(
                 listener.onItemClick(adapterPosition)
 
                 // color change based on selected/unselected
-                val colorSelected: ColorStateList =
-                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
-                val colorUnselected: ColorStateList = ColorStateList.valueOf(
-                    getColor(
-                        context,
-                        com.google.android.material.R.attr.colorPrimaryContainer
-                    )
-                )
+                val colorSelected: ColorStateList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
+                val colorUnselected: ColorStateList = ColorStateList.valueOf(getColor(context, com.google.android.material.R.attr.colorPrimaryContainer))
 
-                if (itemView.backgroundTintList == colorSelected) { // item selected
+                if (itemView.backgroundTintList == colorSelected) { // item selected -> unselected
                     itemView.backgroundTintList = colorUnselected
+                    tvPizza.setTextColor(getColor(tvPizza.context, com.google.android.material.R.attr.colorOnPrimarySurface))
                     layoutMain.visibility = View.GONE
 
-                } else { // item unselected
+                } else { // item unselected -> selected
                     itemView.backgroundTintList = colorSelected
+                    tvPizza.setTextColor(ContextCompat.getColor(tvPizza.context, R.color.black))
                     layoutMain.visibility = View.VISIBLE
                 }
             }
@@ -85,7 +81,10 @@ class RVAdapterSolutions(
         val toppings = pizza.toppings
         for (topping in toppings) {
             val textView = TextView(context)
-            textView.text = topping
+            textView.apply {
+                text = topping
+                setTextColor(ContextCompat.getColor(holder.context, R.color.black))
+            }
 
             if (mapOfToppings[topping] == "Meats") {
                 holder.layoutMeats.addView(textView)
