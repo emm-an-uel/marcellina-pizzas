@@ -1,10 +1,12 @@
 package com.example.marcellinapizzas
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marcellinapizzas.databinding.FragmentSolutionsBinding
@@ -42,6 +44,45 @@ class FragmentSolutions : Fragment() {
         // setup rv
         rv = binding.rvPizzas
         setupRV()
+
+        // menu - for filtering pizzas
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_menu, menu)
+
+                val searchItem: MenuItem = menu.findItem(R.id.actionSearch)
+                val searchView: SearchView = searchItem.actionView as SearchView
+                searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(p0: String?): Boolean {
+                        return false
+                    }
+                    override fun onQueryTextChange(p0: String?): Boolean {
+                        filter(p0)
+                        return false
+                    }
+                    private fun filter(p0: String?) {
+                        val filteredList: ArrayList<Pizza> = arrayListOf()
+                        if (p0 != null) {
+                            for (item in listOfPizzas) {
+                                if (item.name.contains(p0, true)) {
+                                    filteredList.add(item)
+                                }
+                            }
+                        }
+                        rvAdapter.filterList(filteredList)
+                    }
+                })
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.actionSearch -> {
+                        true
+                    } else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun setupRV() {

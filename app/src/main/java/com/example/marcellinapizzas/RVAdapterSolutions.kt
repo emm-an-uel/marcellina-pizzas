@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class RVAdapterSolutions(
-    private val listOfPizzas: List<Pizza>,
+    private var listOfPizzas: List<Pizza>,
     private val mapOfToppings: Map<String, String> // <Topping, Category>
 ) : RecyclerView.Adapter<RVAdapterSolutions.NewViewHolder>() {
 
@@ -114,9 +114,13 @@ class RVAdapterSolutions(
         return position.toLong()
     }
 
+    // filtering (searching)
+    fun filterList(listOfFilteredPizzas: ArrayList<Pizza>) {
+        listOfPizzas = listOfFilteredPizzas
+        notifyDataSetChanged()
+    }
 
     // click listener
-
     private lateinit var mListener: onItemClickListener
 
     interface onItemClickListener {
