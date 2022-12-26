@@ -89,7 +89,7 @@ class FragmentSolutions : Fragment() {
         rvAdapter = RVAdapterSolutions(listOfPizzas, mapOfToppings)
         rvAdapter.setOnItemClickListener(object : RVAdapterSolutions.onItemClickListener {
             override fun onItemClick(position: Int) {
-                // TODO: this
+                // do nothing here (clickListener stuff is handled by RVAdapterSolutions)
             }
         })
         rv.adapter = rvAdapter

@@ -16,8 +16,6 @@ class RVAdapterSolutions(
     private val mapOfToppings: Map<String, String> // <Topping, Category>
 ) : RecyclerView.Adapter<RVAdapterSolutions.NewViewHolder>() {
 
-    // TODO: prevent view recycling - set individual view type??
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
