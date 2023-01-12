@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimaryContainer"
         app:cardCornerRadius="10dp"
         app:cardElevation="6dp">
 
@@ -44,7 +45,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/pizza_weight" />
+                    android:text="@string/pizza_weight"
+                    android:textAlignment="textEnd" />
 
             </LinearLayout>
 
