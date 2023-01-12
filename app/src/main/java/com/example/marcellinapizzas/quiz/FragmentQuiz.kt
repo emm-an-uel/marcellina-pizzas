@@ -1,4 +1,4 @@
-package com.example.marcellinapizzas
+package com.example.marcellinapizzas.quiz
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marcellinapizzas.Pizza
+import com.example.marcellinapizzas.R
+import com.example.marcellinapizzas.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentQuiz : Fragment() {
@@ -26,7 +29,7 @@ class FragmentQuiz : Fragment() {
     lateinit var userMapOfToppings: MutableMap<String, Boolean>
     lateinit var listOfPizzas: List<Pizza>
     lateinit var listOfColors: ArrayList<Int>
-    lateinit var viewModel: ViewModelMain
+    lateinit var viewModel: MainViewModel
     lateinit var tvPizza: TextView
     lateinit var tvScore: TextView
     lateinit var tvHighScore: TextView
@@ -49,7 +52,7 @@ class FragmentQuiz : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // define viewModel and get list of pizzas
-        viewModel = ViewModelProvider(requireActivity())[ViewModelMain::class.java]
+        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         listOfPizzas = viewModel.getListOfPizzas(true)
 
         score = 0
@@ -175,7 +178,7 @@ class FragmentQuiz : Fragment() {
     private fun createListOfColors() {
         listOfColors.apply {
             add(getColor(requireContext(),com.google.android.material.R.attr.colorPrimaryContainer)) // default rv item bg color
-            add(ContextCompat.getColor(requireContext(),R.color.yellow)) // present, user not selected
+            add(ContextCompat.getColor(requireContext(), R.color.yellow)) // present, user not selected
             add(ContextCompat.getColor(requireContext(), R.color.red)) // not present, user selected
             add(ContextCompat.getColor(requireContext(), R.color.green)) // present, user selected
             add(ContextCompat.getColor(requireContext(), R.color.light_blue)) // answers unchecked, user selected

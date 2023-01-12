@@ -1,4 +1,4 @@
-package com.example.marcellinapizzas
+package com.example.marcellinapizzas.solutions
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marcellinapizzas.Pizza
+import com.example.marcellinapizzas.R
+import com.example.marcellinapizzas.MainViewModel
 import com.example.marcellinapizzas.databinding.FragmentSolutionsBinding
 
 class FragmentSolutions : Fragment() {
@@ -19,7 +22,7 @@ class FragmentSolutions : Fragment() {
 
     private val binding get() = _binding!!
 
-    lateinit var viewModel: ViewModelMain
+    lateinit var viewModel: MainViewModel
     lateinit var rvAdapter: RVAdapterSolutions
     lateinit var rv: RecyclerView
     lateinit var listOfPizzas: List<Pizza>
@@ -37,7 +40,7 @@ class FragmentSolutions : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // get listOfPizzas
-        viewModel = ViewModelProvider(requireActivity())[ViewModelMain::class.java]
+        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         listOfPizzas = viewModel.getListOfPizzas(false)
 
         // get mapOfToppings

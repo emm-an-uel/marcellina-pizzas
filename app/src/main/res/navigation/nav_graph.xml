@@ -7,14 +7,20 @@
 
     <fragment
         android:id="@+id/nav_quiz"
-        android:name="com.example.marcellinapizzas.FragmentQuiz"
+        android:name="com.example.marcellinapizzas.quiz.FragmentQuiz"
         android:label="Quiz"
         tools:layout="@layout/fragment_quiz" />
 
     <fragment
         android:id="@+id/nav_solutions"
-        android:name="com.example.marcellinapizzas.FragmentSolutions"
+        android:name="com.example.marcellinapizzas.solutions.FragmentSolutions"
         android:label="Solutions"
         tools:layout="@layout/fragment_solutions" />
+
+    <fragment
+        android:id="@+id/nav_pizza_specs"
+        android:name="com.example.marcellinapizzas.specs.PizzaSpecsFragment"
+        android:label="Pizza Specifications"
+        tools:layout="@layout/fragment_pizza_specs" />
 
 </navigation>

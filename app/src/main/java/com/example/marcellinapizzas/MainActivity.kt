@@ -18,16 +18,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    lateinit var viewModel: ViewModelMain
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // instantiate viewModel and create listOfPizzas, mapOfToppings, highScore
-        viewModel = ViewModelProvider(this)[ViewModelMain::class.java]
-        viewModel.createListOfPizzas()
-        viewModel.createMapOfToppings()
-        viewModel.loadData()
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel.apply {
+            createListOfPizzas()
+            createMapOfToppings()
+            loadData()
+            createPizzaSpecs()
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_quiz, R.id.nav_solutions
+                R.id.nav_quiz, R.id.nav_solutions, R.id.nav_pizza_specs
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

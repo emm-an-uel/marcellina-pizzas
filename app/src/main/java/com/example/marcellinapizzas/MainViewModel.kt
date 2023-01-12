@@ -5,14 +5,48 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.beust.klaxon.JsonReader
 import com.beust.klaxon.Klaxon
+import com.example.marcellinapizzas.specs.PizzaSpecifications
 import java.io.File
 import java.io.StringReader
 
-class ViewModelMain(val app: Application): AndroidViewModel(app) {
+class MainViewModel(val app: Application): AndroidViewModel(app) {
     lateinit var listOfPizzas: ArrayList<Pizza>
     lateinit var mapOfToppings: MutableMap<String, String>
     lateinit var mapOfData: MutableMap<String, Int>
     private var highScore = 0
+    private lateinit var pizzaSpecs: ArrayList<PizzaSpecifications>
+
+    fun createPizzaSpecs() {
+        pizzaSpecs = arrayListOf()
+        for (n in 0 until 4) {
+            var name = ""
+            var weight = 0
+            when (n) {
+                0 -> {
+                    name = "Regular"
+                    weight = 180
+                }
+                1 -> {
+                    name = "Large"
+                    weight = 320
+                }
+                2 -> {
+                    name = "Family"
+                    weight = 500
+                }
+                3 -> {
+                    name = "Party"
+                    weight = 0
+                }
+            }
+            val size = 9 + (3*n) // 3 inches difference between each pizza, so (9 + 3n) inches
+            pizzaSpecs.add(PizzaSpecifications(name, weight, size))
+        }
+    }
+
+    fun getPizzaSpecs(): List<PizzaSpecifications> {
+        return pizzaSpecs
+    }
 
     fun loadData() {
         mapOfData = mutableMapOf()

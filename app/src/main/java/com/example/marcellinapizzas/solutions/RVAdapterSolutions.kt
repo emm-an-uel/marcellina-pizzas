@@ -1,4 +1,4 @@
-package com.example.marcellinapizzas
+package com.example.marcellinapizzas.solutions
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -11,6 +11,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marcellinapizzas.Pizza
+import com.example.marcellinapizzas.R
 
 class RVAdapterSolutions(
     private var listOfPizzas: List<Pizza>,
@@ -43,7 +45,9 @@ class RVAdapterSolutions(
                 listener.onItemClick(adapterPosition)
 
                 // color change based on selected/unselected
-                val colorSelected: ColorStateList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.light_blue))
+                val colorSelected: ColorStateList = ColorStateList.valueOf(ContextCompat.getColor(context,
+                    R.color.light_blue
+                ))
                 val colorUnselected: ColorStateList = ColorStateList.valueOf(getColor(context, com.google.android.material.R.attr.colorPrimaryContainer))
 
                 if (itemView.backgroundTintList == colorSelected) { // item selected -> unselected
