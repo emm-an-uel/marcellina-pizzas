@@ -25,6 +25,7 @@
         <item>Parsley</item>
         <item>Herbs</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="pizza_weight">%s g</string>
+    <string name="pizza_size">%s inches</string>
 </resources>

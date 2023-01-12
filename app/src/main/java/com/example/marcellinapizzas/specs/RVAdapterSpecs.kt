@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marcellinapizzas.MainActivity
 import com.example.marcellinapizzas.R
 
 class RVAdapterSpecs(
@@ -25,10 +26,11 @@ class RVAdapterSpecs(
     }
 
     override fun onBindViewHolder(holder: NewViewHolder, position: Int) {
+        val context = holder.tvName.context
         val pizzaSpecifications = pizzaSpecs[position]
         holder.tvName.text = pizzaSpecifications.name
-        holder.tvSize.text = pizzaSpecifications.size.toString()
-        holder.tvWeight.text = pizzaSpecifications.weight.toString()
+        holder.tvSize.text = (context as MainActivity).resources.getString(R.string.pizza_size, pizzaSpecifications.size.toString())
+        holder.tvWeight.text = (context as MainActivity).resources.getString(R.string.pizza_weight, pizzaSpecifications.weight.toString())
     }
 
     override fun getItemCount(): Int {
