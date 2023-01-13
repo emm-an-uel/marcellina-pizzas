@@ -8,9 +8,11 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_quiz"
+            android:icon="@drawable/ic_quiz"
             android:title="Quiz" />
         <item
             android:id="@+id/nav_solutions"
+            android:icon="@drawable/ic_solutions"
             android:title="Solutions" />
     </group>
 
@@ -19,6 +21,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_pizza_specs"
+            android:icon="@drawable/ic_baseline_settings_24"
             android:title="Pizza Specifications" />
     </group>
 </menu>
