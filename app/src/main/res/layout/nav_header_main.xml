@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="?attr/drawerBackground"
     android:gravity="bottom"
-    android:orientation="vertical"
+    android:layout_marginVertical="15dp"
+    android:orientation="horizontal"
     android:padding="16dp">
 
     <ImageView
@@ -14,6 +16,17 @@
         android:layout_marginTop="@dimen/status_bar_height"
         android:contentDescription="Navigation Header"
         android:paddingTop="10dp"
-        android:src="@mipmap/app_icon_round" />
+        android:src="@drawable/ic_pizza"
+        app:tint="@color/light_blue" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingHorizontal="10dp"
+        android:text="Marcellina's"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>
