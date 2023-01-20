@@ -1,6 +1,8 @@
 package com.example.marcellinapizzas.quiz
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -111,25 +113,46 @@ class FragmentQuiz : Fragment() {
 
             } else { // if user has not answered all questions
                 // give the option to retry everything or just retry that pizza
-                val alertDialog: AlertDialog = requireContext().let {
-                    val builder = AlertDialog.Builder(it)
-                    builder.apply {
-                        setPositiveButton(
-                            "Restart Quiz"
-                        ) { _, _ ->
-                            restartQuiz()
-                        }
-                        setNegativeButton(
-                            "Retry Pizza"
-                        ) { _, _ ->
-                            retryPizza()
-                        }
-                    }
-                    builder.setMessage("Which would you like to do?")
-                    builder.create()
-                }
-                alertDialog.show()
+                createDialog()
             }
+        }
+    }
+
+    private fun createDialog() {
+        val builder = AlertDialog.Builder(requireContext()).create()
+        if (builder.window != null) {
+            builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        val view = layoutInflater.inflate(R.layout.dialog_custom, null, false)
+        val tvPrimary: TextView = view.findViewById(R.id.tvPrimary)
+        val tvSecondary: TextView = view.findViewById(R.id.tvSecondary)
+        val btnRetryPizza: Button = view.findViewById(R.id.btnCancel)
+        val btnRestartQuiz: Button = view.findViewById(R.id.btnConfirm)
+
+        tvPrimary.text = "Which would you like to do?"
+        tvSecondary.visibility = View.GONE
+
+        btnRetryPizza.apply {
+            text = "Retry Pizza"
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.light_blue))
+        }
+        btnRestartQuiz.apply {
+            text = "Restart Quiz"
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.light_blue))
+        }
+
+        btnRetryPizza.setOnClickListener {
+            retryPizza()
+            builder.dismiss()
+        }
+        btnRestartQuiz.setOnClickListener {
+            restartQuiz()
+            builder.dismiss()
+        }
+        builder.apply {
+            setView(view)
+            setCanceledOnTouchOutside(true)
+            show()
         }
     }
 
@@ -165,8 +188,27 @@ class FragmentQuiz : Fragment() {
 
         // start quiz
         nextPizza()
+        createSnackbar()
+    }
 
-        Snackbar.make(rv, "Quiz restarted", Snackbar.LENGTH_SHORT).show()
+    private fun createSnackbar() {
+        val snack = Snackbar.make(rv, "", Snackbar.LENGTH_SHORT)
+        val customSnackView = layoutInflater.inflate(R.layout.snackbar_custom, null, false)
+        if (snack.view.background != null) {
+            snack.view.setBackgroundColor(ContextCompat.getColor(requireContext(), com.google.android.material.R.color.mtrl_btn_transparent_bg_color))
+        }
+
+        val snackbarLayout: Snackbar.SnackbarLayout = snack.view as Snackbar.SnackbarLayout
+        snackbarLayout.setPadding(5, 0, 5, 15)
+        snackbarLayout.addView(customSnackView)
+
+        val tvPrimary: TextView = customSnackView.findViewById(R.id.tvPrimary)
+        val btnAction: Button = customSnackView.findViewById(R.id.btnAction)
+
+        tvPrimary.text = "Quiz restarted"
+        btnAction.visibility = View.GONE // btnAction is not needed here
+
+        snack.show()
     }
 
     private fun updateScore() {
