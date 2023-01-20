@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    // splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     // klaxon
     implementation 'com.beust:klaxon:5.5'
