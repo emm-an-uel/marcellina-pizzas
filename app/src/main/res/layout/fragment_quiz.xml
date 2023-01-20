@@ -16,46 +16,49 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvPizza"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvScore"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textColor="@color/white"
             android:layout_weight="1"
-            android:text="Pizza"
+            android:gravity="start"
+            android:text="@string/current_score"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvScore"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvHighScore"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="Score: 4/6"
-            android:textStyle="bold" />
+            android:text="@string/high_score"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvHighScore"
+        android:id="@+id/tvPizza"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_marginHorizontal="10dp"
+        android:layout_margin="10dp"
         android:layout_weight="1"
-        android:text="High Score: 12"
-        app:layout_constraintRight_toRightOf="parent"
+        android:text="Pizza"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvToppings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:paddingBottom="90dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/tvHighScore" />
+        app:layout_constraintTop_toBottomOf="@id/tvPizza" />
 
     <LinearLayout
         android:layout_width="match_parent"

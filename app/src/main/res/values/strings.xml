@@ -28,4 +28,8 @@
 
     <string name="pizza_weight">%s g</string>
     <string name="pizza_size">%s inches</string>
+    <string name="check_answers">check answers</string>
+    <string name="next_pizza">next pizza</string>
+    <string name="current_score">Current Score: %d / %d</string>
+    <string name="high_score">High Score: %d</string>
 </resources>

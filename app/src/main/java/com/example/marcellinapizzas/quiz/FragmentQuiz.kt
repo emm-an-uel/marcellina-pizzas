@@ -14,9 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marcellinapizzas.MainViewModel
 import com.example.marcellinapizzas.Pizza
 import com.example.marcellinapizzas.R
-import com.example.marcellinapizzas.MainViewModel
+import com.example.marcellinapizzas.databinding.FragmentQuizBinding
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentQuiz : Fragment() {
@@ -40,12 +41,15 @@ class FragmentQuiz : Fragment() {
     lateinit var correctToppings: List<String>
     var answersChecked = false
 
+    private var _binding: FragmentQuizBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quiz, container, false)
+        _binding = FragmentQuizBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,37 +74,37 @@ class FragmentQuiz : Fragment() {
         userMapOfToppings = mutableMapOf()
         setupUserMapOfToppings()
 
-        rv = view.findViewById(R.id.rvToppings)
+        rv = binding.rvToppings
         createRV()
 
-        tvScore = view.findViewById(R.id.tvScore)
-        tvScore.text = "Score: 0/0"
+        tvScore = binding.tvScore
+        tvScore.text = getString(R.string.current_score, 0, 0)
 
-        tvHighScore = view.findViewById(R.id.tvHighScore)
-        tvHighScore.text = "High Score: $highScore"
+        tvHighScore = binding.tvHighScore
+        tvHighScore.text = getString(R.string.high_score, highScore)
 
         // load first pizza
-        tvPizza = view.findViewById(R.id.tvPizza)
+        tvPizza = binding.tvPizza
         nextPizza()
 
         // buttons
-        btnCheck = view.findViewById(R.id.btnCheck)
-        btnCheck.text = "check answers"
+        btnCheck = binding.btnCheck
+        btnCheck.text = getString(R.string.check_answers)
         btnCheck.setOnClickListener {
             if (!answersChecked) { // if answers have not been checked
                 checkAnswers()
                 updateScore()
-                btnCheck.text = "next pizza"
+                btnCheck.text = getString(R.string.next_pizza)
                 answersChecked = true
 
             } else { // if answers have been checked
                 nextPizza()
-                btnCheck.text = "check answers"
+                btnCheck.text = getString(R.string.check_answers)
                 answersChecked = false
             }
         }
 
-        btnRetry = view.findViewById(R.id.btnRetry)
+        btnRetry = binding.btnRetry
         btnRetry.setOnClickListener {
             if (btnCheck.visibility == View.GONE) { // if user has answered all questions
                 restartQuiz()
@@ -134,7 +138,7 @@ class FragmentQuiz : Fragment() {
             score-- // remove the point that the user got from the pizza that they're retrying
         }
         numQuestions--
-        tvScore.text = "Score: $score/$numQuestions"
+        tvScore.text = getString(R.string.current_score, score, numQuestions)
         btnCheck.text = "Check Answers"
         answersChecked = false
         nextPizza()
@@ -152,7 +156,7 @@ class FragmentQuiz : Fragment() {
         listOfPizzas = viewModel.getListOfPizzas(true)
 
         // reset tvScore and buttons
-        tvScore.text = "Score: 0/0"
+        tvScore.text = getString(R.string.current_score, 0, 0)
         btnRetry.text = "retry"
         btnCheck.apply {
             visibility = View.VISIBLE
@@ -166,7 +170,7 @@ class FragmentQuiz : Fragment() {
     }
 
     private fun updateScore() {
-        tvScore.text = "Score: $score/$numQuestions"
+        tvScore.text = getString(R.string.current_score, score, numQuestions)
     }
 
     private fun setupRVMapOfToppings() {
@@ -279,7 +283,7 @@ class FragmentQuiz : Fragment() {
     private fun checkHighScore() {
         if (score > highScore) {
             viewModel.updateHighScore(score)
-            tvHighScore.text = "High Score: $score"
+            tvHighScore.text = getString(R.string.high_score, highScore)
             Snackbar.make(tvScore, "You beat your previous high score of $highScore", Snackbar.LENGTH_SHORT).show()
         }
     }
