@@ -19,7 +19,7 @@ class RVAdapterSpecs(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.pizza_specs_item,
+            R.layout.rv_pizza_specs_item,
             parent, false
         )
         return NewViewHolder(itemView)
